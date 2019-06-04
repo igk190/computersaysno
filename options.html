@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+        <!-- Required meta tags -->
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+        <link rel="stylesheet" type="text/css" href="css/options.css">
+
+        <link rel="stylesheet" href="bootstrap-4.3.1-dist/css/bootstrap.min.css">
+
+
+</head>
+<body>
+    <!-- <div id="buttonDiv"></div> -->
+    <!-- <p>Choose a different background color!</p> -->
+
+    <div class="container-fluid">
+        <div class="row">
+            <div class="col">
+                <h1 class="text-uppercase my-3">Options</h1>
+            </div><!-- end col -->
+        </div><!-- end row -->
+
+        <div class="row">
+            <div class="col">
+                <label for="url">F%ck this website:</label>
+            </div><!-- end col -->
+            <div class="col">
+                    <input type="url" name="url" id="url"
+                    placeholder="https://example.com"
+                    size="60" required="required" maxlength="100">
+            </div><!-- end col -->
+            <div class="col">
+                <button id="save" value="save">Save</button>
+            </div><!-- end col -->
+        </div><!-- end row -->
+
+
+        <div class="row">
+            <div class="col">
+                <div id="status"></div>
+            </div><!-- end col -->
+        </div><!-- end row -->
+          
+        <div class="row">
+            <div class="col">
+                <table class="table my-3">
+                        <thead>
+                            <tr>
+                                <th scope="col">URL</th>
+                                <th scope="col">Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id='showUrls'>
+                            <!-- dynamically render content -->
+                            
+                        </tbody>
+                    </table>
+            </div><!-- end col -->
+        </div><!-- end row -->
+        
+
+        <!-- danger zone removing-->
+        <!-- <button id="removeUrlBtn">Remove Url TEST</button> -->
+        <button id="removeAllBtn">Remove All</button>
+
+    </div> <!-- end container -->
+
+
+    <script src="bootstrap-4.3.1-dist/js/bootstrap.min.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/jquery_v3.4.1.js"></script>
+    <script src="bootstrap-4.3.1-dist/js/popper.js-1.15.0/dist/popper.min.js"></script>
+
+    <script src="options.js"></script>    
+</body>
+</html>
