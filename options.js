@@ -15,37 +15,36 @@ function constructOptions(kButtonColors) {
   }
 }
 
-// on click save, save url in a var - DONE
-// get current 'blockedUrls' from storage - DONE
-// check type of blockedUrls - DONE
-// if blockedUrls == array, check length of array - DONE
-//    if length >= 1, save blockedUrls to new variable (still arr) - DONE
-// if length === 0// blockedUrls === undefined, add var with url to an array
-// set chrome storage with blockedUrls: blockedUrls array
-// check with console log oä
-
 // Save options to chrome.storage
 function save_options() {
-    let newUrl = document.getElementById('url').value;
-    let trimmedUrl = newUrl.trim();
-    console.log( 'T or F', trimmedUrl === '');
+    let newUrl = document.getElementById('url').value.trim();
+    // let trimmedUrl = newUrl.trim();
+    console.log( 'T or F', newUrl === '');
 
-    if (newUrl === null || newUrl === '' || trimmedUrl === '') {
-        // write code, show popup with is empty, please fill out
+    if (newUrl === null || newUrl === '' || newUrl === '') {
         document.getElementById('url').value = '';
         alert('Please fill out a valid URL.')
     } else {
         chrome.storage.sync.get(['blockedUrl'], function(data) {
             let urlData = data.blockedUrl;
-            if (Array.isArray(urlData)) {
-                urlData.push(newUrl);
-                chrome.storage.sync.set({'blockedUrl': urlData}, function() {
-                    showOptionSavedMsg(urlData);
-                    document.getElementById('url').value = '';
-                    addUrlToDisplay(newUrl);
-                  });
-            } else {
-                console.log('string string ')
+
+            if (Array.isArray(urlData)) { // if there IS an array
+                // first check if  new url arleady exists in urlData,
+                // if true, alert 'already added'
+                if (urlData.includes(newUrl)) {
+                    alert('URL already added.')
+                // else: proceed
+                } else {
+                    urlData.push(newUrl); // add new url to arr + save in storage
+                    chrome.storage.sync.set({'blockedUrl': urlData}, function() {
+                        showOptionSavedMsg(urlData);
+                        document.getElementById('url').value = '';
+                        addUrlToDisplay(newUrl);
+                      });
+                }
+
+            } else {  // create new arr + add to it
+                console.log('was undefined, nothing was there yet. ')
                 let newArr = [];
                 newArr.push(urlData);
                 chrome.storage.sync.set({'blockedUrl': newArr}, function() {
@@ -56,7 +55,6 @@ function save_options() {
             }
         });
     }
-
 }
 
 function showOptionSavedMsg(url) {
