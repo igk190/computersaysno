@@ -11,17 +11,17 @@ function constructOptions(kButtonColors) {
         console.log('color is ' + item);
       })
     });
-    page.appendChild(button);  /// yay i undrstand dis code 
+    page.appendChild(button);  
   }
 }
+// -----------IT STARTS BELOW ----------------------------------
 
 // Save options to chrome.storage
 function save_options() {
     let newUrl = document.getElementById('url').value.trim();
-    // let trimmedUrl = newUrl.trim();
     console.log( 'T or F', newUrl === '');
 
-    if (newUrl === null || newUrl === '' || newUrl === '') {
+    if (newUrl === null || newUrl === '') {
         document.getElementById('url').value = '';
         alert('Please fill out a valid URL.')
     } else {
@@ -42,11 +42,10 @@ function save_options() {
                         addUrlToDisplay(newUrl);
                       });
                 }
-
             } else {  // create new arr + add to it
                 console.log('was undefined, nothing was there yet. ')
                 let newArr = [];
-                newArr.push(urlData);
+                newArr.push(newUrl);
                 chrome.storage.sync.set({'blockedUrl': newArr}, function() {
                     showOptionSavedMsg(newArr);
                     document.getElementById('url').value = '';
@@ -65,6 +64,20 @@ function showOptionSavedMsg(url) {
         setTimeout(function() {
             status.textContent = '';
         }, 1000);
+}
+function addUrlToDisplay(newAdd) {
+    let tr = document.createElement('TR');
+    list.appendChild(tr);
+    let td1 = document.createElement('TD');
+    let td2 = document.createElement('TD');
+
+    let textnode = document.createTextNode(newAdd);
+    td1.appendChild(textnode);
+    let removeButton = createRemoveBtn();
+    td2.appendChild(removeButton);
+
+    tr.appendChild(td1);
+    tr.appendChild(td2);
 }
 
 
@@ -91,20 +104,6 @@ function display_url() {
             }
         }
     })
-}
-function addUrlToDisplay(newAdd) {
-    let tr = document.createElement('TR');
-    list.appendChild(tr);
-    let td1 = document.createElement('TD');
-    let td2 = document.createElement('TD');
-
-    let textnode = document.createTextNode(newAdd);
-    td1.appendChild(textnode);
-    let removeButton = createRemoveBtn();
-    td2.appendChild(removeButton);
-
-    tr.appendChild(td1);
-    tr.appendChild(td2);
 }
 
 function createRemoveBtn() {
@@ -144,9 +143,25 @@ function deleteSingleUrl(e) {
  toBeRemovedEl.remove();
 }
 
+function deleteAllUrlsFromPage() {
+    // delete everything under either #id showUrls or <tbody>
+    let test = list.children;
+    // console.log('test', test)
+    // test.remove(); // FIX ME PLS
+ 
+    while (list.hasChildNodes()) {
+        list.removeChild(list.firstChild);
+     }
+     var removedStatus = document.getElementById('removedStatus');
+     removedStatus.textContent = 'All urls deleted.';
+     setTimeout(function() {
+        removedStatus.textContent = '';
+     }, 1000);
+}
 
 function removeAll() { // deletes entire ref
     chrome.storage.sync.remove(['blockedUrl'],function(){
+        deleteAllUrlsFromPage();
         var error = chrome.runtime.lastError;
            if (error) {
                console.error(error);
@@ -156,11 +171,10 @@ function removeAll() { // deletes entire ref
 
 
 // constructOptions(kButtonColors);
-document.getElementById('save').addEventListener('click',
+document.getElementById('saveBtn').addEventListener('click',
     save_options);
 document.getElementById('removeAllBtn').addEventListener('click',
     removeAll);
-display_url();  // TO DO refactor
- 
+display_url();      
 
 
