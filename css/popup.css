@@ -6,7 +6,9 @@ button {
     width: 30px;
     outline: none;
 }
-#options:hover {
-    font-weight: bold;
+#go-to-options:hover {
+    cursor: pointer;
+}
+a:hover {
     cursor: pointer;
 }
