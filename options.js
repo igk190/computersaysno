@@ -1,54 +1,58 @@
-let page = document.getElementById('buttonDiv');
-const kButtonColors = ['#3aa757', '#e8453c', '#f9bb2d', '#4688f1'];
+
 let list = document.getElementById('showUrls')
 
-function constructOptions(kButtonColors) {
-  for (let item of kButtonColors) {
-    let button = document.createElement('button');
-    button.style.backgroundColor = item;
-    button.addEventListener('click', function() {
-      chrome.storage.sync.set({color: item}, function() {
-        console.log('color is ' + item);
-      })
-    });
-    page.appendChild(button);  
+function is_url(str){
+    regexp =  /^(?:(?:https?|ftp):\/\/)?(?:(?!(?:10|127)(?:\.\d{1,3}){3})(?!(?:169\.254|192\.168)(?:\.\d{1,3}){2})(?!172\.(?:1[6-9]|2\d|3[0-1])(?:\.\d{1,3}){2})(?:[1-9]\d?|1\d\d|2[01]\d|22[0-3])(?:\.(?:1?\d{1,2}|2[0-4]\d|25[0-5])){2}(?:\.(?:[1-9]\d?|1\d\d|2[0-4]\d|25[0-4]))|(?:(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)(?:\.(?:[a-z\u00a1-\uffff0-9]-*)*[a-z\u00a1-\uffff0-9]+)*(?:\.(?:[a-z\u00a1-\uffff]{2,})))(?::\d{2,5})?(?:\/\S*)?$/;
+          if (regexp.test(str)) {
+            return true;
+          } else {
+            return false;
+          }
   }
-}
-// -----------IT STARTS BELOW ----------------------------------
+
+  function clear_url_input_field() {
+    document.getElementById('url').value = '';
+  }
 
 // Save options to chrome.storage
 function save_options() {
     let newUrl = document.getElementById('url').value.trim();
-    console.log( 'T or F', newUrl === '');
+    newUrl = newUrl.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
+    console.log( 'T or F modified', newUrl, newUrl === '');
+     
 
     if (newUrl === null || newUrl === '') {
-        document.getElementById('url').value = '';
-        alert('Please fill out a valid URL.')
+        clear_url_input_field();
+        alert('Field is empty.')
+        console.log('is url or no', is_url(newUrl))
+    } else if (is_url(newUrl) === false) {
+        clear_url_input_field();
+        alert('Please insert a valid URL.')
     } else {
         chrome.storage.sync.get(['blockedUrl'], function(data) {
             let urlData = data.blockedUrl;
 
-            if (Array.isArray(urlData)) { // if there IS an array
+            if (Array.isArray(urlData)) { // If there is an array
                 // first check if  new url arleady exists in urlData,
                 // if true, alert 'already added'
                 if (urlData.includes(newUrl)) {
                     alert('URL already added.')
-                // else: proceed
+                    clear_url_input_field();
                 } else {
                     urlData.push(newUrl); // add new url to arr + save in storage
                     chrome.storage.sync.set({'blockedUrl': urlData}, function() {
                         showOptionSavedMsg(urlData);
-                        document.getElementById('url').value = '';
+                        clear_url_input_field();
                         addUrlToDisplay(newUrl);
                       });
                 }
-            } else {  // create new arr + add to it
+            } else {  // If there is NO array, create one, add url to it
                 console.log('was undefined, nothing was there yet. ')
                 let newArr = [];
                 newArr.push(newUrl);
                 chrome.storage.sync.set({'blockedUrl': newArr}, function() {
                     showOptionSavedMsg(newArr);
-                    document.getElementById('url').value = '';
+                    clear_url_input_field();
                     addUrlToDisplay(newUrl);
                   });
             }
@@ -170,7 +174,6 @@ function removeAll() { // deletes entire ref
 }
 
 
-// constructOptions(kButtonColors);
 document.getElementById('saveBtn').addEventListener('click',
     save_options);
 document.getElementById('removeAllBtn').addEventListener('click',

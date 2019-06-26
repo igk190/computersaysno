@@ -1,11 +1,21 @@
 {
-    "name": "Getting Started Example",
+    "name": "How about NO",
     "version": "1.0",
-    "description": "Build an Extension!",
-    "permissions": ["activeTab", "tabs", "declarativeContent", "storage"],
+    "description": "Block time-wasting websites!",
+    "permissions": [
+      "activeTab",
+      "tabs",
+      "declarativeContent",
+      "storage",
+      "webRequest",
+      "webRequestBlocking",
+      "*://twitter.com/*",
+      "https://www.youtube.com/channel/UCcDAFjqR_6NYCV6WArBEkWA",
+      "<all_urls>"
+    ],
     "background": {
       "scripts": ["background.js"],
-      "persistent": false
+      "persistent": true
     },
     "options_page": "options.html",
     "page_action": {
@@ -23,6 +33,6 @@
       "48": "images/get_started48.png",
       "128": "images/get_started128.png"
     },
-    "web_accessible_resources": ["options.html"],
+    "web_accessible_resources": ["options.html", "no.html"],
     "manifest_version": 2
   }
