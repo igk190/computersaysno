@@ -1,15 +1,13 @@
 {
-    "name": "How about NO",
+    "name": "HowAboutNo",
     "version": "1.0",
     "description": "Block time-wasting websites!",
     "permissions": [
       "activeTab",
       "tabs",
-      "declarativeContent",
       "storage",
       "webRequest",
-      "webRequestBlocking",
-      "*://twitter.com/*"
+      "webRequestBlocking"
     ],
     "background": {
       "scripts": ["background.js"],

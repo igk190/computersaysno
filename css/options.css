@@ -22,3 +22,7 @@ li {
 #saveBtn {
     background-color: green;
 }
+#url {
+    border: solid -1px whitesmoke;
+    border-radius: 3px;
+}

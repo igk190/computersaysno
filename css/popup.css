@@ -1,14 +1,20 @@
 body {
-    width: 300px;
+    width: 200px;
 }
 button {
     height: 30px;
     width: 30px;
     outline: none;
+    padding: 2px;
 }
 #go-to-options:hover {
     cursor: pointer;
 }
+/* #add-website */
 a:hover {
     cursor: pointer;
+}
+h1 {
+    text-transform: uppercase; 
+    clear: left;
 }

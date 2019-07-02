@@ -37,7 +37,7 @@ chrome.tabs.onUpdated.addListener(function(tabId, change, tab) {
 
         for (var i = 0, len = values.length; i < len; i++) {
           if (tabURL.includes(values[i])) {
-          alert(' OMG its a match');
+          // alert(' OMG its a match');
           chrome.tabs.update(tabId, { url: 'no.html' });
           break;
         } 

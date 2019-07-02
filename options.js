@@ -1,4 +1,3 @@
-
 let list = document.getElementById('showUrls')
 
 function is_url(str){
@@ -69,6 +68,7 @@ function showOptionSavedMsg(url) {
             status.textContent = '';
         }, 1000);
 }
+
 function addUrlToDisplay(newAdd) {
     let tr = document.createElement('TR');
     list.appendChild(tr);
