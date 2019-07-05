@@ -20,13 +20,20 @@ function addCurrentWebsite() {
         if (chromeURL1.includes(newUrl) || urlAsString.includes('chrome-extension://') ) {
             showErrorMsg();
         } else {
+
             chrome.storage.sync.get(['blockedUrl'], function(data) {
                 let urlData = data.blockedUrl;
-                if (Array.isArray(urlData)) { // If there is an array, the domain will be new bc you can't be on a blocked page
-                    urlData.push(newUrl); // add new url to arr + save in storage
-                    chrome.storage.sync.set({'blockedUrl': urlData}, function() {
-                        showSavedMsg(urlData);
-                    });
+                if (Array.isArray(urlData)) { // If there is an array, the domain will be new bc you can't be on a blocked page 
+                    
+                    if (urlData.includes(newUrl)) {
+                        showErrorDuplicateMsg();
+                    } else {
+                        urlData.push(newUrl); // add new url to arr + save in storage
+                        chrome.storage.sync.set({'blockedUrl': urlData}, function() {
+                            showSavedMsg(urlData);
+                        });
+                    }
+                    
                 } else {  // If there is NO array, create one, add url to it
                     console.log('nothing there yet')
                     let newArr = [];
@@ -52,6 +59,13 @@ function showSavedMsg(url) {
 function showErrorMsg() {
     var status = document.getElementById('status');
     status.textContent = 'This URL cannot be added.'
+    setTimeout(function() {
+        status.textContent = '';
+    }, 1000);
+}
+function showErrorDuplicateMsg() {
+    var status = document.getElementById('status');
+    status.textContent = 'You already added this URL.'
     setTimeout(function() {
         status.textContent = '';
     }, 1000);
