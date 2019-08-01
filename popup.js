@@ -13,14 +13,12 @@ function addCurrentWebsite() {
         let newUrl = domain.replace(/^(?:https?:\/\/)?(?:www\.)?/i, "").split('/')[0];
 
         let chromeURL1 = 'chrome://extensions/'
+        let chromeURL2 = 'chrome-extension://'
         let urlAsString = url.toString()
 
-        console.log('newURL', newUrl, typeof chromeURL1)
-
-        if (chromeURL1.includes(newUrl) || urlAsString.includes('chrome-extension://') ) {
+        if (urlAsString.includes(chromeURL1) || urlAsString.includes(chromeURL2) ) {
             showErrorMsg();
         } else {
-
             chrome.storage.sync.get(['blockedUrl'], function(data) {
                 let urlData = data.blockedUrl;
                 if (Array.isArray(urlData)) { // If there is an array, the domain will be new bc you can't be on a blocked page 

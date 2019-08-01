@@ -1,7 +1,7 @@
 {
-    "name": "HowAboutNo",
-    "version": "1.0",
-    "description": "Block time-wasting websites!",
+    "name": "HowAboutNo - Website Blocker",
+    "version": "0.0.0.1",
+    "description": "Block time-wasting websites! Never distract yourself again.",
     "permissions": [
       "activeTab",
       "tabs",

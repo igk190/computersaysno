@@ -6,8 +6,9 @@ button {
     width: 30px;
     outline: none;
     padding: 2px;
+    border: none;
 }
-#go-to-options:hover {
+button:hover {
     cursor: pointer;
 }
 /* #add-website */
@@ -17,4 +18,5 @@ a:hover {
 h1 {
     text-transform: uppercase; 
     clear: left;
+    font-weight: bold;
 }
